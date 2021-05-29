@@ -1,29 +1,31 @@
 <!doctype html>
-<title>Python Flask Image Upload and Display Example</title>
-<h2>Select an image to upload and display</h2>
-<p>
-	{% with messages = get_flashed_messages() %}
-	  {% if messages %}
-		<ul>
-		{% for message in messages %}
-		  <li>{{ message }}</li>
-		{% endfor %}
-		</ul>
-	  {% endif %}
-	{% endwith %}
-</p>
+<title>Image Outpainting.</title>
+<h2 style="text-align: center;">Upload Image to generate Outpainted Image.</h2>
+
 {% if filename %}
-	<div>
-		<img src="{{ url_for('display_image', filename=filename) }}">
+<div style="display:flex; flex-direction:row; justify-content: center;">
+	<div style="margin-right: 5%;"> 
+		<p style="text-align: center;">Original Image</p>
+		<img style="width: 40vw; height: 60vh;" src="{{ url_for('original_image', filename=filename) }}">
 	</div>
+
+	<div >
+		<p style="text-align: center;">Generated Image</p> 
+		<img style="width: 40vw; height: 60vh;" src="{{ url_for('display_image', filename=filename) }}">
+	</div>
+
+	
+</div>
 {% endif %}
-<form method="post" action="/" enctype="multipart/form-data">
-    <dl>
+
+<form  method="post" action="/" enctype="multipart/form-data">
+	<div style="display: flex; justify-content: center;">
 		<p>
-			<input type="file" name="file" autocomplete="off" required>
+			<input type="file" name="file" autocomplete="off" >
 		</p>
-    </dl>
-    <p>
-		<input type="submit" value="Submit">
-	</p>
+		<p>
+			<input type="submit" value="Submit">
+		</p>
+	</div>
+
 </form>

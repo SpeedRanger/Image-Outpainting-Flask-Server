@@ -3,6 +3,7 @@ from app import app
 import urllib.request
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
+import forward
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -25,7 +26,7 @@ def upload_image():
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename)
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		#print('upload_image filename: ' + filename)
+		predictedImage = forward.test(file, filename)
 		flash('Image successfully uploaded and displayed below')
 		return render_template('upload.html', filename=filename)
 	else:
@@ -35,7 +36,12 @@ def upload_image():
 @app.route('/display/<filename>')
 def display_image(filename):
 	#print('display_image filename: ' + filename)
+	return redirect(url_for('static', filename='Generated_Image/' + filename), code=301)
+
+@app.route('/original/<filename>')
+def original_image(filename):
+	#print('display_image filename: ' + filename)
 	return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
